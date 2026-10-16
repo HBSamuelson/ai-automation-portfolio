@@ -1,0 +1,15 @@
+{
+  "id": "book-drain",
+  "now": "2026-10-15T10:00:00",
+  "lines": [
+    "I need to schedule a drain cleaning",
+    "My name is Elena Vasquez",
+    "303-555-0177",
+    "Saturday morning",
+    "1234 Perry Street, Denver",
+    "Yes"
+  ],
+  "expect_tools": ["check_availability", "book_appointment"],
+  "forbid_tools": ["transfer_to_human"],
+  "expect_text": ["lock that in", "PP-", "Elena"]
+}

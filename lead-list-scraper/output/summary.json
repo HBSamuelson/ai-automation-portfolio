@@ -1,0 +1,13 @@
+{
+  "rows": 300,
+  "raw_rows": 340,
+  "chains_excluded": 12,
+  "invalid_phone_dropped": 4,
+  "duplicates_removed": 24,
+  "pct_with_email": 51.7,
+  "pct_with_website": 81.3,
+  "niche": "Plumbers",
+  "city": "Denver, CO",
+  "source": "Front Range Business Index (local fixture, not Google Maps)",
+  "collected_date": "2026-10-15"
+}

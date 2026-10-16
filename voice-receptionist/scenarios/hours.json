@@ -1,0 +1,8 @@
+{
+  "id": "hours",
+  "now": "2026-10-15T10:00:00",
+  "lines": ["What are your Saturday hours?"],
+  "expect_tools": [],
+  "forbid_tools": ["book_appointment"],
+  "expect_text": ["Saturday", "8"]
+}

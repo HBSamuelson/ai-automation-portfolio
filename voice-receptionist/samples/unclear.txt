@@ -1,0 +1,10 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?
+caller: uhhhh
+agent: Sorry, I didn't catch that. Are you calling about hours, a price, or booking a visit?
+caller: hmm what
+agent: I still didn't catch that. I can transfer you to a person at the shop. Want me to do that?
+
+Caller: Unknown caller
+Phone: No phone
+Outcome: answered
+Detail: No follow-up tool was needed.

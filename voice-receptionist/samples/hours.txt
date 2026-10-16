@@ -1,0 +1,8 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?
+caller: What are your Saturday hours?
+agent: We're open Monday through Friday, 7 in the morning to 6 in the evening. Saturday, 8 to 1. Sunday, closed. We're open right now.
+
+Caller: Unknown caller
+Phone: No phone
+Outcome: answered
+Detail: No follow-up tool was needed.

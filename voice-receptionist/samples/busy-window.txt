@@ -1,0 +1,15 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?
+caller: Book a water heater install for tomorrow morning. I'm Luis Ortega, 720-555-0144, 88 Irving Street, Denver.
+[tool] check_availability {"day": "2026-10-16", "window": "morning"}
+agent: Friday morning is already booked. I can come Friday afternoon, or Saturday morning. Which works?
+caller: Tomorrow afternoon is fine
+[tool] check_availability {"day": "2026-10-16", "window": "afternoon"}
+agent: I can book water heater for Luis Ortega on Friday afternoon at 88 Irving Street, Denver. Should I lock that in?
+caller: Yes
+[tool] book_appointment {"caller_name": "Luis Ortega", "phone": "(720) 555-0144", "service": "water heater", "day": "2026-10-16", "window": "afternoon", "address": "88 Irving Street, Denver"}
+agent: You're booked. Confirmation PP-1001 for Friday afternoon. We'll see you at 88 Irving Street, Denver.
+
+Caller: Luis Ortega
+Phone: (720) 555-0144
+Outcome: booked
+Detail: PP-1001

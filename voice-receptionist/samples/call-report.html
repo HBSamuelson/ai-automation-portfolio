@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Peak Plumbing — book-drain</title>
+  <style>
+    body { margin: 0; background: #f4f0e6; color: #1c1914; font-family: Georgia, serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 36px 20px 72px; }
+    h1 { font-weight: 500; font-size: 36px; margin-bottom: 0; }
+    .meta { font-family: "Avenir Next", "Segoe UI", sans-serif; color: #5c564c; }
+    .log { background: white; border-radius: 18px; padding: 8px 18px; margin-top: 20px; }
+    p { line-height: 1.45; }
+    .caller b { color: #8a4b12; }
+    .tool { font-family: "Avenir Next", "Segoe UI", sans-serif; font-size: 13px; background: #efe7c8; border-radius: 10px; padding: 8px 10px; }
+    pre { white-space: pre-wrap; font-family: "Avenir Next", "Segoe UI", sans-serif; background: #1c1914; color: #f4f0e6; padding: 16px; border-radius: 16px; }
+    .flow { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; font-family: "Avenir Next", "Segoe UI", sans-serif; font-size: 13px; }
+    .flow span { background: white; border-radius: 999px; padding: 6px 10px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="meta">Gig 4 sample call · book-drain</p>
+    <h1>Peak Plumbing Denver</h1>
+    <div class="flow">
+      <span>Greeting</span><span>Intent</span><span>Availability</span><span>Confirm</span><span>Book or transfer</span><span>Summary</span>
+    </div>
+    <div class="log"><p class='agent'><b>Peak.</b> Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?</p><p class='caller'><b>Caller.</b> I need to schedule a drain cleaning</p><p class='agent'><b>Peak.</b> What's your name?</p><p class='caller'><b>Caller.</b> My name is Elena Vasquez</p><p class='agent'><b>Peak.</b> What's the best callback number?</p><p class='caller'><b>Caller.</b> 303-555-0177</p><p class='agent'><b>Peak.</b> What day should I look at?</p><p class='caller'><b>Caller.</b> Saturday morning</p><p class='agent'><b>Peak.</b> What's the street address?</p><p class='caller'><b>Caller.</b> 1234 Perry Street, Denver</p><p class='tool'><b>check_availability</b> {"day": "2026-10-17", "window": "morning"}</p><p class='agent'><b>Peak.</b> I can book drain cleaning for Elena Vasquez on Saturday morning at 1234 Perry Street, Denver. Should I lock that in?</p><p class='caller'><b>Caller.</b> Yes</p><p class='tool'><b>book_appointment</b> {"caller_name": "Elena Vasquez", "phone": "(303) 555-0177", "service": "drain cleaning", "day": "2026-10-17", "window": "morning", "address": "1234 Perry Street, Denver"}</p><p class='agent'><b>Peak.</b> You're booked. Confirmation PP-1001 for Saturday morning. We'll see you at 1234 Perry Street, Denver.</p></div>
+    <h2>Call summary</h2>
+    <pre>Caller: Elena Vasquez
+Phone: (303) 555-0177
+Outcome: booked
+Detail: PP-1001</pre>
+  </main>
+</body>
+</html>

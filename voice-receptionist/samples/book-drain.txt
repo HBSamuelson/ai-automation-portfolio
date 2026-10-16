@@ -1,0 +1,20 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?
+caller: I need to schedule a drain cleaning
+agent: What's your name?
+caller: My name is Elena Vasquez
+agent: What's the best callback number?
+caller: 303-555-0177
+agent: What day should I look at?
+caller: Saturday morning
+agent: What's the street address?
+caller: 1234 Perry Street, Denver
+[tool] check_availability {"day": "2026-10-17", "window": "morning"}
+agent: I can book drain cleaning for Elena Vasquez on Saturday morning at 1234 Perry Street, Denver. Should I lock that in?
+caller: Yes
+[tool] book_appointment {"caller_name": "Elena Vasquez", "phone": "(303) 555-0177", "service": "drain cleaning", "day": "2026-10-17", "window": "morning", "address": "1234 Perry Street, Denver"}
+agent: You're booked. Confirmation PP-1001 for Saturday morning. We'll see you at 1234 Perry Street, Denver.
+
+Caller: Elena Vasquez
+Phone: (303) 555-0177
+Outcome: booked
+Detail: PP-1001

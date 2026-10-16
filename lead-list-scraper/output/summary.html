@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Denver plumbers — cleaned lead list</title>
+  <style>
+    body { margin: 0; background: #eef3ef; color: #17211b; font-family: "Avenir Next", "Segoe UI", sans-serif; }
+    main { max-width: 1100px; margin: 0 auto; padding: 36px 24px 64px; }
+    h1 { font-family: Georgia, serif; font-weight: 500; font-size: 40px; margin: 0; }
+    .note { max-width: 640px; color: #3e5146; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+    .stat { background: white; border-radius: 16px; padding: 16px; }
+    .stat b { display: block; font-size: 32px; font-family: Georgia, serif; font-weight: 500; }
+    .stat span { color: #5c6d63; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; font-size: 13px; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e4eee7; vertical-align: top; }
+    th { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #5c6d63; }
+    @media (max-width: 800px) { .stats { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p>Gig 3 sample · collected 2026-10-15</p>
+    <h1>Denver plumbers</h1>
+    <p class="note">Front Range Business Index (local fixture, not Google Maps). Chains removed, phones normalized, duplicates merged.</p>
+    <div class="stats">
+      <div class="stat"><b>300</b><span>cleaned rows</span></div>
+      <div class="stat"><b>24</b><span>duplicates merged</span></div>
+      <div class="stat"><b>51.7%</b><span>with a public email</span></div>
+      <div class="stat"><b>81.3%</b><span>with a website</span></div>
+    </div>
+    <table>
+      <thead><tr><th>Name</th><th>Phone</th><th>Website</th><th>Rating</th><th>Email</th><th>Address</th></tr></thead>
+      <tbody><tr><td>Athmar Alameda Drain and Pipe</td><td>(720) 555-1027</td><td>https://athmar-alameda-drain-and-pipe.example</td><td>4.2</td><td></td><td>1012 Irving Street, City Park, Denver, CO 80204</td></tr><tr><td>Athmar Alameda Pipeworks</td><td>(720) 555-1211</td><td>https://athmar-alameda-pipeworks.example</td><td>4.5</td><td>info@athmar-alameda-pipeworks.example</td><td>1051 Emerson Street, Sloan Lake, Denver, CO 80223</td></tr><tr><td>Athmar Alameda Plumbing</td><td>(303) 555-1014</td><td>https://athmar-alameda-plumbing.example</td><td></td><td>office@athmar-alameda-plumbing.example</td><td>576 Ogden Street, RiNo, Denver, CO 80203</td></tr><tr><td>Athmar Alameda Plumbing Co.</td><td>(303) 555-1176</td><td>https://athmar-alameda-plumbing-co.example</td><td>4.9</td><td></td><td>289 Galapago Street, Capitol Hill, Denver, CO 80209</td></tr><tr><td>Athmar Aspen Plumbing</td><td>(720) 555-1275</td><td>https://athmar-aspen-plumbing.example</td><td>3.8</td><td>info@athmar-aspen-plumbing.example</td><td>502 Perry Street, City Park, Denver, CO 80211</td></tr><tr><td>Athmar Cedar Drain and Pipe</td><td>(720) 555-1025</td><td>https://athmar-cedar-drain-and-pipe.example</td><td>3.4</td><td>info@athmar-cedar-drain-and-pipe.example</td><td>753 Jason Street, Wash Park, Denver, CO 80203</td></tr><tr><td>Athmar Colorado Drain and Pipe</td><td>(303) 555-1162</td><td>https://athmar-colorado-drain-and-pipe.example</td><td>3.9</td><td>info@athmar-colorado-drain-and-pipe.example</td><td>1585 Clarkson Street, Capitol Hill, Denver, CO 80218</td></tr><tr><td>Athmar Downing Plumbing Co.</td><td>(720) 555-1243</td><td>https://athmar-downing-plumbing-co.example</td><td>4.1</td><td>info@athmar-downing-plumbing-co.example</td><td>1002 Galapago Street, Sloan Lake, Denver, CO 80203</td></tr></tbody>
+    </table>
+  </main>
+</body>
+</html>

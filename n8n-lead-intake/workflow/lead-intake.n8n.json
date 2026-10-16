@@ -1,0 +1,620 @@
+{
+  "name": "Northline Studio \u2014 Lead intake",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Northline lead intake\n1. Website form posts to this webhook.\n2. OpenAI labels the lead hot, warm, or cold and writes a two-line summary.\n3. If OpenAI errors, the rules fallback uses the same phrases.\n4. Every valid lead is appended to Google Sheets and gets a Gmail reply.\n5. Hot leads also post in #hot-leads.\n\nReplace every REPLACE_ME credential and the sheet id before activating.",
+        "height": 260,
+        "width": 420,
+        "color": 5
+      },
+      "id": "7c1e9a20-eeee-4a11-8c11-eeeeeeeeeeee",
+      "name": "How this flow works",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        80,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "northline-lead",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "7c1e9a20-1111-4a11-8c11-111111111111",
+      "name": "Form Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        400
+      ],
+      "webhookId": "c0ffee00-1111-4a11-8c11-111111111111"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "name",
+              "name": "name",
+              "value": "={{ ($json.body?.name || '').replace(/\\s+/g, ' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "email",
+              "name": "email",
+              "value": "={{ ($json.body?.email || '').trim().toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "company",
+              "name": "company",
+              "value": "={{ ($json.body?.company || '').replace(/\\s+/g, ' ').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "phone",
+              "name": "phone",
+              "value": "={{ ($json.body?.phone || '').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "source",
+              "name": "source",
+              "value": "={{ ($json.body?.source || 'website-form').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "message",
+              "name": "message",
+              "value": "={{ ($json.body?.message || '').replace(/\\s+/g, ' ').trim() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7c1e9a20-2222-4a11-8c11-222222222222",
+      "name": "Normalize Lead",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "email-present",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7c1e9a20-3333-4a11-8c11-333333333333",
+      "name": "Has Email",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        740,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": false, \"error\": \"email is required\" } }}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "7c1e9a20-4444-4a11-8c11-444444444444",
+      "name": "Respond Invalid",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1020,
+        620
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'gpt-4o-mini', temperature: 0.2, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: \"You classify a website lead for Northline Studio and write a two-line summary.\\n\\nReturn only JSON with the keys temperature, summary, and reason.\\ntemperature must be exactly one of: hot, warm, cold.\\n\\nRules, in order:\\n- Cold if the message says there is no budget, the person is just curious, or this is school research.\\n- Hot if they want to start this week, say urgent or ASAP, have a budget approved, are the decision maker, or ask for a call today.\\n- Warm if they ask about pricing, a quote, a demo, or a timeline that is not immediate.\\n- Otherwise warm when a company is present, and cold when it is not.\\n\\nsummary is exactly two lines, separated by one newline.\\nLine 1 says who they are and what they want, using only facts in the lead.\\nLine 2 states the temperature, the reason, and the next step (call today, send pricing, or nurture only).\\nDo not invent budget, authority, or timeline.\\nreason is one short sentence.\" }, { role: 'user', content: JSON.stringify({ name: $json.name, email: $json.email, company: $json.company, phone: $json.phone, source: $json.source, message: $json.message }) }] }) }",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "id": "7c1e9a20-5555-4a11-8c11-555555555555",
+      "name": "Classify Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1020,
+        280
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_ME",
+          "name": "OpenAI Authorization header"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const lead = $('Normalize Lead').first().json;\nconst body = $input.first().json;\nconst content = body.choices?.[0]?.message?.content;\nif (!content) {\n  throw new Error('OpenAI response did not include message content');\n}\nlet parsed;\ntry {\n  parsed = JSON.parse(content);\n} catch (error) {\n  throw new Error(`OpenAI content was not JSON: ${content.slice(0, 180)}`);\n}\nconst temperature = String(parsed.temperature || '').toLowerCase();\nif (!['hot', 'warm', 'cold'].includes(temperature)) {\n  throw new Error(`Unexpected temperature: ${temperature}`);\n}\nconst summary = String(parsed.summary || '').trim();\nconst lines = summary.split(/\\n/).map((line) => line.trim()).filter(Boolean);\nif (lines.length !== 2) {\n  throw new Error('Summary must be exactly two lines');\n}\nreturn [{\n  json: {\n    ...lead,\n    temperature,\n    summary: lines.join('\\n'),\n    reason: String(parsed.reason || ''),\n    classifiedBy: 'openai',\n  },\n}];\n"
+      },
+      "id": "7c1e9a20-6666-4a11-8c11-666666666666",
+      "name": "Parse Classification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const lead = $('Normalize Lead').first().json;\nconst HOT = [\"urgent\", \"asap\", \"as soon as possible\", \"this week\", \"ready to start\", \"ready to buy\", \"budget approved\", \"budget is approved\", \"decision maker\", \"call me today\", \"immediately\", \"signed off\"];\nconst WARM = [\"pricing\", \"price\", \"quote\", \"interested\", \"next month\", \"evaluating\", \"demo\", \"timeline\", \"comparing\"];\nconst COLD = [\"just curious\", \"just looking\", \"student\", \"no budget\", \"someday\", \"not sure\", \"maybe later\", \"researching for school\"];\nconst blob = `${lead.message || ''} ${lead.company || ''} ${lead.source || ''}`.toLowerCase();\nconst hits = (phrases) => phrases.filter((phrase) => blob.includes(phrase));\nlet temperature = 'cold';\nlet reason = 'There is no company and no clear buying signal.';\nif (blob.includes('no budget') || blob.includes('just curious') || blob.includes('researching for school')) {\n  temperature = 'cold';\n  reason = 'The note shows curiosity or no budget, so it is not a live opportunity.';\n} else if (hits(HOT).length) {\n  temperature = 'hot';\n  reason = `The note signals near-term intent (${hits(HOT)[0]}).`;\n} else if (hits(WARM).length) {\n  temperature = 'warm';\n  reason = `The note asks for information (${hits(WARM)[0]}) without a start-now signal.`;\n} else if (hits(COLD).length) {\n  temperature = 'cold';\n  reason = `The note is low intent (${hits(COLD)[0]}).`;\n} else if (lead.company) {\n  temperature = 'warm';\n  reason = 'A company is named, but the note does not say how soon they want to start.';\n}\nconst who = lead.company ? `${lead.name || 'Unknown sender'} at ${lead.company}` : (lead.name || 'Unknown sender');\nconst want = (lead.message || 'did not describe a project').replace(/\\s+/g, ' ').trim();\nconst shortWant = want.length > 110 ? `${want.slice(0, 107).trim()}...` : want;\nconst nextStep = { hot: 'call today', warm: 'send pricing', cold: 'nurture only' }[temperature];\nconst summary = `${who} wrote: ${shortWant}.\\n${temperature[0].toUpperCase()}${temperature.slice(1)} lead because ${reason} Next step: ${nextStep}.`;\nreturn [{ json: { ...lead, temperature, summary, reason, classifiedBy: 'rules-fallback' } }];\n"
+      },
+      "id": "7c1e9a20-7777-4a11-8c11-777777777777",
+      "name": "Rules Fallback",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const item = $input.first().json;\nconst first = (item.name || 'there').split(' ')[0];\nconst bodies = {\n  hot: `Hi ${first},\\n\\nThanks for writing in. A specialist will call you today about the workflow you described.\\n\\nNorthline Studio`,\n  warm: `Hi ${first},\\n\\nThanks for your interest. Reply with two times that work for a 15-minute call, and we will send a short pricing outline before we meet.\\n\\nNorthline Studio`,\n  cold: `Hi ${first},\\n\\nThanks for getting in touch. If a workflow project comes up later, reply to this note and we will pick it up from there.\\n\\nNorthline Studio`,\n};\nconst subjects = {\n  hot: 'We got your note and will call today',\n  warm: 'Pricing next steps from Northline Studio',\n  cold: 'Thanks for contacting Northline Studio',\n};\nconst slackText = [\n  `*Hot lead:* ${item.name || 'Unknown'} \u00b7 ${item.company || 'No company'}`,\n  item.email,\n  item.phone || 'No phone',\n  '',\n  item.summary,\n  '',\n  `Source: ${item.source || 'website-form'}`,\n].join('\\n');\nreturn [{\n  json: {\n    ...item,\n    emailSubject: subjects[item.temperature] || subjects.warm,\n    emailBody: bodies[item.temperature] || bodies.warm,\n    slackText,\n    sheetTimestamp: new Date().toISOString(),\n  },\n}];\n"
+      },
+      "id": "7c1e9a20-8888-4a11-8c11-888888888888",
+      "name": "Compose Outreach",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "YOUR_GOOGLE_SHEET_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Leads"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.sheetTimestamp }}",
+            "Name": "={{ $json.name }}",
+            "Email": "={{ $json.email }}",
+            "Company": "={{ $json.company }}",
+            "Phone": "={{ $json.phone }}",
+            "Source": "={{ $json.source }}",
+            "Temperature": "={{ $json.temperature }}",
+            "Summary": "={{ $json.summary }}",
+            "Reason": "={{ $json.reason }}",
+            "Message": "={{ $json.message }}",
+            "Classified By": "={{ $json.classifiedBy }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Temperature",
+              "displayName": "Temperature",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reason",
+              "displayName": "Reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Classified By",
+              "displayName": "Classified By",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "7c1e9a20-9999-4a11-8c11-999999999999",
+      "name": "Append Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1800,
+        80
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACE_ME",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "temp-hot",
+              "leftValue": "={{ $json.temperature }}",
+              "rightValue": "hot",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7c1e9a20-aaaa-4a11-8c11-aaaaaaaaaaaa",
+      "name": "Is Hot",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1800,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "name",
+          "value": "#hot-leads"
+        },
+        "text": "={{ $json.slackText }}",
+        "otherOptions": {}
+      },
+      "id": "7c1e9a20-bbbb-4a11-8c11-bbbbbbbbbbbb",
+      "name": "Slack Hot Lead",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2060,
+        200
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "REPLACE_ME",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "={{ $json.emailSubject }}",
+        "emailType": "text",
+        "message": "={{ $json.emailBody }}",
+        "options": {}
+      },
+      "id": "7c1e9a20-cccc-4a11-8c11-cccccccccccc",
+      "name": "Send Gmail Reply",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1800,
+        540
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REPLACE_ME",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true, \"temperature\": $json.temperature, \"summary\": $json.summary, \"classifiedBy\": $json.classifiedBy } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "7c1e9a20-dddd-4a11-8c11-dddddddddddd",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        2060,
+        420
+      ]
+    }
+  ],
+  "connections": {
+    "Form Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Lead": {
+      "main": [
+        [
+          {
+            "node": "Has Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Email": {
+      "main": [
+        [
+          {
+            "node": "Classify Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Invalid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Lead": {
+      "main": [
+        [
+          {
+            "node": "Parse Classification",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rules Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Classification": {
+      "main": [
+        [
+          {
+            "node": "Compose Outreach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rules Fallback": {
+      "main": [
+        [
+          {
+            "node": "Compose Outreach",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose Outreach": {
+      "main": [
+        [
+          {
+            "node": "Append Google Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Hot",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Gmail Reply",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Hot": {
+      "main": [
+        [
+          {
+            "node": "Slack Hot Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "pinData": {
+    "Form Webhook": [
+      {
+        "json": {
+          "headers": {
+            "content-type": "application/json"
+          },
+          "body": {
+            "name": "Maya Chen",
+            "email": "maya@brightpath.example",
+            "company": "Brightpath Dental Group",
+            "phone": "303-555-0164",
+            "source": "website-form",
+            "message": "We need the missed-call text-back live this week. Budget is approved and I am the decision maker. Please call me today."
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": "northline-portfolio-demo"
+  },
+  "versionId": "7c1e9a20-0000-4a11-8c11-000000000001",
+  "active": false,
+  "tags": []
+}

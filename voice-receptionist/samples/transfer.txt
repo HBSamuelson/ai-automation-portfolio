@@ -1,0 +1,9 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?
+caller: Can I talk to a real person?
+[tool] transfer_to_human {"reason": "Caller asked for a person."}
+agent: I'm transferring you to a person at the shop now. The dispatcher line is (303) 555-0190.
+
+Caller: Unknown caller
+Phone: No phone
+Outcome: transferred
+Detail: +13035550199

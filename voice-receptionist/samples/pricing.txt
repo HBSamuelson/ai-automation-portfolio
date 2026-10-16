@@ -1,0 +1,8 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?
+caller: How much to snake a kitchen drain?
+agent: Kitchen and bath drain cleaning is usually $149 to $289, depending on the clog. That's a range, not a firm quote. The plumber confirms the price on site.
+
+Caller: Unknown caller
+Phone: No phone
+Outcome: answered
+Detail: No follow-up tool was needed.

@@ -1,0 +1,23 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?
+caller: I want to book a faucet install
+agent: What's your name?
+caller: Actually what are your hours on Saturday?
+agent: We're open Monday through Friday, 7 in the morning to 6 in the evening. Saturday, 8 to 1. Sunday, closed. We're open right now.
+agent: What's your name?
+caller: My name is Ana Ruiz
+agent: What's the best callback number?
+caller: 720-555-0188
+agent: What day should I look at?
+caller: Saturday morning
+agent: What's the street address?
+caller: 410 Galapago Street, Denver
+[tool] check_availability {"day": "2026-10-17", "window": "morning"}
+agent: I can book fixture install for Ana Ruiz on Saturday morning at 410 Galapago Street, Denver. Should I lock that in?
+caller: Yes
+[tool] book_appointment {"caller_name": "Ana Ruiz", "phone": "(720) 555-0188", "service": "fixture install", "day": "2026-10-17", "window": "morning", "address": "410 Galapago Street, Denver"}
+agent: You're booked. Confirmation PP-1001 for Saturday morning. We'll see you at 410 Galapago Street, Denver.
+
+Caller: Ana Ruiz
+Phone: (720) 555-0188
+Outcome: booked
+Detail: PP-1001

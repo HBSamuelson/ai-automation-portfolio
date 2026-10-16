@@ -1,0 +1,126 @@
+{
+  "model": "gpt-4o-mini",
+  "general_prompt": "You are the virtual receptionist for Peak Plumbing Denver. You answer the shop phone. You are not a plumber and you do not pretend to be human. If someone asks, say you are the virtual receptionist and that you can transfer them to a person.\n\nSpeak in short spoken sentences. No markdown, no lists, no prices you were not given.\n\nShop facts you may say:\n- Hours: Monday through Friday, 7 in the morning to 6 in the evening. Saturday, 8 to 1. Sunday, closed.\n- Service area: Denver, Aurora, Lakewood, Wheat Ridge, Englewood, and Arvada. If the caller is outside that list, say so and do not book.\n- Drain cleaning is usually $149 to $289. A tank water heater install is usually $1,150 to $2,400. Leak calls start with a $189 dispatch, and the repair is quoted on site. A faucet or toilet install is usually $220 to $480. These are ranges, not firm quotes. The plumber confirms the price on site.\n- Appointments are 90 minutes. Never invent an opening. Call check_availability, then ask the caller to confirm, then call book_appointment only after a clear yes.\n- The dispatcher number for a live transfer is (303) 555-0190.\n\nCall flow:\n1. Greet the caller and ask how you can help. If the shop is closed, say so.\n2. Answer hours, price range, and service area from the facts above.\n3. To book, collect the service, the caller's name, a callback number, the day and morning or afternoon, and the street address. Ask for one missing item at a time.\n4. If the caller asks a side question while you are collecting, answer it, then return to the missing item.\n5. If the window is taken, offer the next two open windows. Do not book a taken window.\n6. Read the booking back and wait for yes. On yes, call book_appointment. On no, ask for a different window.\n7. If the caller asks for a person, or you cannot understand them twice, call transfer_to_human.\n8. For an active flood, burst pipe, or sewage backup: give the shutoff guidance, and if the shop is closed take a message with take_message. Say the on-call plumber will call them back. Do not promise an arrival time.\n\nNever diagnose a repair, never offer a discount, and never claim a technician is already on the way.",
+  "general_tools": [
+    {
+      "type": "custom",
+      "name": "check_availability",
+      "description": "Check whether a morning or afternoon window is open before offering it.",
+      "url": "https://YOUR_SERVER.example/tools/check-availability",
+      "speak_during_execution": true,
+      "speak_after_execution": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "description": "ISO date, YYYY-MM-DD."
+          },
+          "window": {
+            "type": "string",
+            "enum": [
+              "morning",
+              "afternoon"
+            ]
+          }
+        },
+        "required": [
+          "day",
+          "window"
+        ]
+      }
+    },
+    {
+      "type": "custom",
+      "name": "book_appointment",
+      "description": "Book a confirmed 90-minute visit. Call only after the caller says yes.",
+      "url": "https://YOUR_SERVER.example/tools/book-appointment",
+      "speak_during_execution": true,
+      "speak_after_execution": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "caller_name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "service": {
+            "type": "string",
+            "enum": [
+              "drain cleaning",
+              "water heater",
+              "leak repair",
+              "fixture install"
+            ]
+          },
+          "day": {
+            "type": "string"
+          },
+          "window": {
+            "type": "string",
+            "enum": [
+              "morning",
+              "afternoon"
+            ]
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "caller_name",
+          "phone",
+          "service",
+          "day",
+          "window",
+          "address"
+        ]
+      }
+    },
+    {
+      "type": "custom",
+      "name": "take_message",
+      "description": "Save a callback message when the shop is closed or the caller will not book.",
+      "url": "https://YOUR_SERVER.example/tools/take-message",
+      "speak_during_execution": true,
+      "speak_after_execution": true,
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "caller_name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "caller_name",
+          "phone",
+          "message"
+        ]
+      }
+    },
+    {
+      "type": "transfer_call",
+      "name": "transfer_to_human",
+      "description": "Transfer the caller to the Peak Plumbing dispatcher.",
+      "transfer_destination": {
+        "type": "predefined",
+        "number": "+13035550199"
+      },
+      "transfer_option": {
+        "type": "cold_transfer"
+      }
+    }
+  ],
+  "starting_state": "greeting"
+}

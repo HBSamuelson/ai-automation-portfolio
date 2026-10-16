@@ -1,0 +1,10 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today?
+caller: Do you come out to Colorado Springs for a leak?
+agent: We don't serve Colorado Springs. Peak Plumbing works in Denver, Aurora, Lakewood, Wheat Ridge, Englewood, Arvada.
+caller: My name is Sam Patel, 303-555-0101, 10 Cascade Ave, Colorado Springs
+agent: We don't serve Colorado Springs. Peak Plumbing works in Denver, Aurora, Lakewood, Wheat Ridge, Englewood, Arvada.
+
+Caller: Unknown caller
+Phone: No phone
+Outcome: answered
+Detail: No follow-up tool was needed.

@@ -1,0 +1,11 @@
+agent: Thanks for calling Peak Plumbing Denver. This is the virtual receptionist. How can I help you today? The shop is closed right now. I can take a message or book the next open window.
+caller: My kitchen line burst and water is everywhere
+agent: If water is actively flooding and it is safe to reach the valve, turn the fixture shutoff or the house main clockwise. If you smell gas, leave the house and call 911. The shop is closed. The on-call plumber will call you back about the active leak. What's your name and phone number?
+caller: Elena Vasquez, 303-555-0177, 1234 Perry Street, Denver
+[tool] take_message {"caller_name": "Elena Vasquez", "phone": "(303) 555-0177", "message": "My kitchen line burst and water is everywhere Elena Vasquez, 303-555-0177, 1234 Perry Street, Denver", "address": "1234 Perry Street, Denver"}
+agent: I have that, Elena Vasquez. The on-call plumber will call you back at (303) 555-0177. Reference MSG-101.
+
+Caller: Elena Vasquez
+Phone: (303) 555-0177
+Outcome: message
+Detail: MSG-101

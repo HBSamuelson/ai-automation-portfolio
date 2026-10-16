@@ -1,0 +1,11 @@
+{
+  "id": "after-hours-emergency",
+  "now": "2026-10-15T21:40:00",
+  "lines": [
+    "My kitchen line burst and water is everywhere",
+    "Elena Vasquez, 303-555-0177, 1234 Perry Street, Denver"
+  ],
+  "expect_tools": ["take_message"],
+  "forbid_tools": ["book_appointment"],
+  "expect_text": ["shutoff", "call you back"]
+}

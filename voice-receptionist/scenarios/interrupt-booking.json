@@ -1,0 +1,16 @@
+{
+  "id": "interrupt-booking",
+  "now": "2026-10-15T10:00:00",
+  "lines": [
+    "I want to book a faucet install",
+    "Actually what are your hours on Saturday?",
+    "My name is Ana Ruiz",
+    "720-555-0188",
+    "Saturday morning",
+    "410 Galapago Street, Denver",
+    "Yes"
+  ],
+  "expect_tools": ["check_availability", "book_appointment"],
+  "forbid_tools": [],
+  "expect_text": ["Saturday", "8", "Ana"]
+}

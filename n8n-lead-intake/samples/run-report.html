@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Northline lead intake — sample run</title>
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; font-family: "Iowan Old Style", Palatino, Georgia, serif; background: #f3efe6; color: #1d1a16; }
+    main { max-width: 1180px; margin: 0 auto; padding: 32px 24px 64px; }
+    h1 { font-weight: 500; font-size: 40px; margin: 0 0 8px; }
+    .lede { max-width: 640px; font-family: "Avenir Next", "Segoe UI", sans-serif; color: #4d463c; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 28px 0; }
+    .card { background: white; border-radius: 16px; padding: 16px 18px; box-shadow: 0 1px 0 rgba(0,0,0,.04); }
+    .card h2 { margin: 0; font-size: 22px; font-weight: 500; }
+    .kicker { font-family: "Avenir Next", "Segoe UI", sans-serif; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #6d6458; margin: 0 0 8px; }
+    .temp { display: inline-block; margin: 8px 0; padding: 2px 8px; border-radius: 999px; font-family: "Avenir Next", "Segoe UI", sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    .hot .temp { background: #f3d2c4; }
+    .warm .temp { background: #f3e3b8; }
+    .cold .temp { background: #d9e2ea; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; font-family: "Avenir Next", "Segoe UI", sans-serif; font-size: 13px; }
+    th, td { text-align: left; padding: 10px 12px; vertical-align: top; border-bottom: 1px solid #eee7db; }
+    th { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #6d6458; }
+    tr.hot td:first-child { box-shadow: inset 3px 0 0 #c45c26; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    section { background: white; border-radius: 16px; padding: 16px 18px; }
+    pre { white-space: pre-wrap; font-family: "Avenir Next", "Segoe UI", sans-serif; font-size: 14px; line-height: 1.45; }
+    .to { color: #6d6458; font-family: "Avenir Next", "Segoe UI", sans-serif; }
+    @media (max-width: 800px) { .split { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="kicker">Gig 1 sample run</p>
+    <h1>Northline lead intake</h1>
+    <p class="lede">Offline run of the same rules the n8n workflow uses when OpenAI is unavailable. Hot leads get a Slack alert. Every valid lead gets a sheet row and a Gmail reply.</p>
+    <div class="grid"><article class='card cold'><p class='kicker'>cold-lead · rules</p><h2>Sam Student</h2><p class='temp'>cold</p><p>Sam Student wrote: Just curious how this kind of automation works. Researching for school, no budget.<br>Cold lead because The note shows curiosity or no budget, so it is not a live opportunity. Next step: nurture only.</p></article><article class='card hot'><p class='kicker'>hot-lead · rules</p><h2>Maya Chen</h2><p class='temp'>hot</p><p>Maya Chen at Brightpath Dental Group wrote: We need the missed-call text-back live this week. Budget is approved and I am the decision maker. Please ca....<br>Hot lead because The note signals near-term intent (this week). Next step: call today.</p></article><article class='card hot'><p class='kicker'>messy-hot-lead · rules</p><h2>Jorge Alvarez</h2><p class='temp'>hot</p><p>Jorge Alvarez at Alvarez HVAC wrote: ASAP — ready to start. Our dispatch board is a mess and the owner signed off.<br>Hot lead because The note signals near-term intent (asap). Next step: call today.</p></article><article class='card cold'><p class='kicker'>missing-email</p><h2>Rejected</h2><p>email is required</p></article><article class='card warm'><p class='kicker'>warm-lead · rules</p><h2>Luis Ortega</h2><p class='temp'>warm</p><p>Luis Ortega at Ortiz Heating wrote: Interested in pricing for a lead follow-up automation. We are evaluating options next month.<br>Warm lead because The note asks for information (pricing) without a start-now signal. Next step: send pricing.</p></article></div>
+    <h2>Google Sheet · Leads</h2>
+    <table><thead><tr><th>timestamp</th><th>name</th><th>email</th><th>company</th><th>phone</th><th>source</th><th>temperature</th><th>summary</th><th>reason</th><th>classified_by</th></tr></thead><tbody><tr class='cold'><td>2026-10-15T09:59:41+00:00</td><td>Sam Student</td><td>sam@university.example</td><td></td><td></td><td>website-form</td><td>cold</td><td>Sam Student wrote: Just curious how this kind of automation works. Researching for school, no budget.<br>Cold lead because The note shows curiosity or no budget, so it is not a live opportunity. Next step: nurture only.</td><td>The note shows curiosity or no budget, so it is not a live opportunity.</td><td>rules</td></tr><tr class='hot'><td>2026-10-15T09:59:41+00:00</td><td>Maya Chen</td><td>maya@brightpath.example</td><td>Brightpath Dental Group</td><td>303-555-0164</td><td>website-form</td><td>hot</td><td>Maya Chen at Brightpath Dental Group wrote: We need the missed-call text-back live this week. Budget is approved and I am the decision maker. Please ca....<br>Hot lead because The note signals near-term intent (this week). Next step: call today.</td><td>The note signals near-term intent (this week).</td><td>rules</td></tr><tr class='hot'><td>2026-10-15T09:59:41+00:00</td><td>Jorge Alvarez</td><td>jorge@alvarezhvac.example</td><td>Alvarez HVAC</td><td>(720) 555-0190</td><td>typeform</td><td>hot</td><td>Jorge Alvarez at Alvarez HVAC wrote: ASAP — ready to start. Our dispatch board is a mess and the owner signed off.<br>Hot lead because The note signals near-term intent (asap). Next step: call today.</td><td>The note signals near-term intent (asap).</td><td>rules</td></tr><tr class='warm'><td>2026-10-15T09:59:41+00:00</td><td>Luis Ortega</td><td>luis@ortizheating.example</td><td>Ortiz Heating</td><td>720-555-0118</td><td>website-form</td><td>warm</td><td>Luis Ortega at Ortiz Heating wrote: Interested in pricing for a lead follow-up automation. We are evaluating options next month.<br>Warm lead because The note asks for information (pricing) without a start-now signal. Next step: send pricing.</td><td>The note asks for information (pricing) without a start-now signal.</td><td>rules</td></tr></tbody></table>
+    <div class="split"><section><h3>Gmail · Thanks for contacting Northline Studio</h3><p class='to'>To sam@university.example</p><pre>Hi Sam,
+
+Thanks for getting in touch. If a workflow project comes up later, reply to this note and we will pick it up from there.
+
+Northline Studio</pre></section><section><h3>Slack · #hot-leads</h3><pre>*Hot lead:* Maya Chen · Brightpath Dental Group
+maya@brightpath.example
+303-555-0164
+
+Maya Chen at Brightpath Dental Group wrote: We need the missed-call text-back live this week. Budget is approved and I am the decision maker. Please ca....
+Hot lead because The note signals near-term intent (this week). Next step: call today.
+
+Source: website-form</pre></section><section><h3>Gmail · We got your note and will call today</h3><p class='to'>To maya@brightpath.example</p><pre>Hi Maya,
+
+Thanks for writing in. A specialist will call you today about the workflow you described.
+
+Northline Studio</pre></section><section><h3>Slack · #hot-leads</h3><pre>*Hot lead:* Jorge Alvarez · Alvarez HVAC
+jorge@alvarezhvac.example
+(720) 555-0190
+
+Jorge Alvarez at Alvarez HVAC wrote: ASAP — ready to start. Our dispatch board is a mess and the owner signed off.
+Hot lead because The note signals near-term intent (asap). Next step: call today.
+
+Source: typeform</pre></section><section><h3>Gmail · We got your note and will call today</h3><p class='to'>To jorge@alvarezhvac.example</p><pre>Hi Jorge,
+
+Thanks for writing in. A specialist will call you today about the workflow you described.
+
+Northline Studio</pre></section><section><h3>Gmail · Pricing next steps from Northline Studio</h3><p class='to'>To luis@ortizheating.example</p><pre>Hi Luis,
+
+Thanks for your interest. Reply with two times that work for a 15-minute call, and we will send a short pricing outline before we meet.
+
+Northline Studio</pre></section></div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,52 @@
+[
+  {
+    "payload": "cold-lead",
+    "ok": true,
+    "error": null,
+    "temperature": "cold",
+    "summary": "Sam Student wrote: Just curious how this kind of automation works. Researching for school, no budget.\nCold lead because The note shows curiosity or no budget, so it is not a live opportunity. Next step: nurture only.",
+    "reason": "The note shows curiosity or no budget, so it is not a live opportunity.",
+    "classified_by": "rules",
+    "slack": false
+  },
+  {
+    "payload": "hot-lead",
+    "ok": true,
+    "error": null,
+    "temperature": "hot",
+    "summary": "Maya Chen at Brightpath Dental Group wrote: We need the missed-call text-back live this week. Budget is approved and I am the decision maker. Please ca....\nHot lead because The note signals near-term intent (this week). Next step: call today.",
+    "reason": "The note signals near-term intent (this week).",
+    "classified_by": "rules",
+    "slack": true
+  },
+  {
+    "payload": "messy-hot-lead",
+    "ok": true,
+    "error": null,
+    "temperature": "hot",
+    "summary": "Jorge Alvarez at Alvarez HVAC wrote: ASAP \u2014 ready to start. Our dispatch board is a mess and the owner signed off.\nHot lead because The note signals near-term intent (asap). Next step: call today.",
+    "reason": "The note signals near-term intent (asap).",
+    "classified_by": "rules",
+    "slack": true
+  },
+  {
+    "payload": "missing-email",
+    "ok": false,
+    "error": "email is required",
+    "temperature": null,
+    "summary": null,
+    "reason": null,
+    "classified_by": null,
+    "slack": false
+  },
+  {
+    "payload": "warm-lead",
+    "ok": true,
+    "error": null,
+    "temperature": "warm",
+    "summary": "Luis Ortega at Ortiz Heating wrote: Interested in pricing for a lead follow-up automation. We are evaluating options next month.\nWarm lead because The note asks for information (pricing) without a start-now signal. Next step: send pricing.",
+    "reason": "The note asks for information (pricing) without a start-now signal.",
+    "classified_by": "rules",
+    "slack": false
+  }
+]
