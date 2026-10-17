@@ -1,0 +1,186 @@
+[
+  {
+    "id": "ORD-1042",
+    "email": "ava.chen@northline.example",
+    "customer_name": "Ava Chen",
+    "status": "shipped",
+    "ordered_at": "2026-10-02",
+    "shipped_at": "2026-10-04",
+    "delivered_at": null,
+    "estimated_delivery": "2026-10-09",
+    "carrier": "Northline Freight",
+    "tracking": "NL-TRK-1042",
+    "ship_to": "Boulder, CO",
+    "existing_rma": null,
+    "items": [
+      {
+        "sku": "PACK-28",
+        "name": "Trailhead 28L Pack",
+        "qty": 1,
+        "price": 148.0,
+        "final_sale": false
+      }
+    ]
+  },
+  {
+    "id": "ORD-1108",
+    "email": "jules.okonkwo@northline.example",
+    "customer_name": "Jules Okonkwo",
+    "status": "delivered",
+    "ordered_at": "2026-09-28",
+    "shipped_at": "2026-09-29",
+    "delivered_at": "2026-10-02",
+    "estimated_delivery": "2026-10-03",
+    "carrier": "Northline Freight",
+    "tracking": "NL-TRK-1108",
+    "ship_to": "Portland, OR",
+    "existing_rma": null,
+    "items": [
+      {
+        "sku": "BEAN-01",
+        "name": "Cedar Wool Beanie",
+        "qty": 1,
+        "price": 38.0,
+        "final_sale": false
+      }
+    ]
+  },
+  {
+    "id": "ORD-0988",
+    "email": "mina.park@northline.example",
+    "customer_name": "Mina Park",
+    "status": "delivered",
+    "ordered_at": "2026-08-14",
+    "shipped_at": "2026-08-15",
+    "delivered_at": "2026-08-20",
+    "estimated_delivery": "2026-08-21",
+    "carrier": "Northline Freight",
+    "tracking": "NL-TRK-0988",
+    "ship_to": "Minneapolis, MN",
+    "existing_rma": null,
+    "items": [
+      {
+        "sku": "PARKA-RL",
+        "name": "Ridgeline Down Parka",
+        "qty": 1,
+        "price": 420.0,
+        "final_sale": false
+      }
+    ]
+  },
+  {
+    "id": "ORD-1215",
+    "email": "sam.rivera@northline.example",
+    "customer_name": "Sam Rivera",
+    "status": "delivered",
+    "ordered_at": "2026-10-01",
+    "shipped_at": "2026-10-02",
+    "delivered_at": "2026-10-05",
+    "estimated_delivery": "2026-10-06",
+    "carrier": "Northline Freight",
+    "tracking": "NL-TRK-1215",
+    "ship_to": "Flagstaff, AZ",
+    "existing_rma": null,
+    "items": [
+      {
+        "sku": "LAMP-01",
+        "name": "Summit Headlamp",
+        "qty": 1,
+        "price": 54.0,
+        "final_sale": false
+      }
+    ]
+  },
+  {
+    "id": "ORD-0771",
+    "email": "rio.hale@northline.example",
+    "customer_name": "Rio Hale",
+    "status": "delivered",
+    "ordered_at": "2026-09-26",
+    "shipped_at": "2026-09-27",
+    "delivered_at": "2026-10-01",
+    "estimated_delivery": "2026-10-02",
+    "carrier": "Northline Freight",
+    "tracking": "NL-TRK-0771",
+    "ship_to": "Austin, TX",
+    "existing_rma": null,
+    "items": [
+      {
+        "sku": "MUG-CL",
+        "name": "Enamel Camp Mug",
+        "qty": 1,
+        "price": 18.0,
+        "final_sale": true
+      }
+    ]
+  },
+  {
+    "id": "ORD-1302",
+    "email": "noor.ali@northline.example",
+    "customer_name": "Noor Ali",
+    "status": "processing",
+    "ordered_at": "2026-10-06",
+    "shipped_at": null,
+    "delivered_at": null,
+    "estimated_delivery": null,
+    "carrier": null,
+    "tracking": null,
+    "ship_to": "Seattle, WA",
+    "existing_rma": null,
+    "items": [
+      {
+        "sku": "STOVE-1",
+        "name": "Cairn Camp Stove",
+        "qty": 1,
+        "price": 86.0,
+        "final_sale": false
+      }
+    ]
+  },
+  {
+    "id": "ORD-0884",
+    "email": "ellis.berg@northline.example",
+    "customer_name": "Ellis Berg",
+    "status": "returned",
+    "ordered_at": "2026-09-08",
+    "shipped_at": "2026-09-09",
+    "delivered_at": "2026-09-12",
+    "estimated_delivery": "2026-09-13",
+    "carrier": "Northline Freight",
+    "tracking": "NL-TRK-0884",
+    "ship_to": "Burlington, VT",
+    "existing_rma": "RMA-0884",
+    "items": [
+      {
+        "sku": "BASE-M",
+        "name": "Merino Base Layer",
+        "qty": 1,
+        "price": 64.0,
+        "final_sale": false
+      }
+    ]
+  },
+  {
+    "id": "ORD-1420",
+    "email": "quinn.adebayo@northline.example",
+    "customer_name": "Quinn Adebayo",
+    "status": "delivered",
+    "ordered_at": "2026-09-29",
+    "shipped_at": "2026-09-30",
+    "delivered_at": "2026-10-03",
+    "estimated_delivery": "2026-10-04",
+    "carrier": "Northline Freight",
+    "tracking": "NL-TRK-1420",
+    "ship_to": "Durham, NC",
+    "existing_rma": null,
+    "items": [
+      {
+        "sku": "FLAN-L",
+        "name": "Lowland Flannel Shirt",
+        "qty": 1,
+        "price": 78.0,
+        "final_sale": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Northline desk</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%231b2f2b' width='64' height='64'/%3E%3Cpath d='M8 46 L24 22 L32 34 L42 16 L56 46' fill='none' stroke='%23c6a15a' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,650&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #1b2f2b;
+      --pine-2: #243a35;
+      --paper: #f6f3ec;
+      --canvas: #e7e1d4;
+      --ink: #1c2420;
+      --muted: #5c675f;
+      --line: #ddd4c6;
+      --brass: #a0783e;
+      --brass-2: #c6a15a;
+      --cream: #f4efe4;
+      --agent: #e4efe8;
+      --high: #a33b32;
+      --shadow: 0 16px 40px rgba(28, 36, 32, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: Outfit, "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+    button, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+    .layout {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+    }
+    aside {
+      background: var(--pine);
+      color: var(--cream);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      padding: 28px 22px 18px;
+      overflow: auto;
+    }
+    .brand { display: flex; gap: 12px; align-items: center; }
+    .mark { width: 42px; height: 42px; color: var(--brass-2); flex: none; }
+    .eyebrow {
+      margin: 0;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brass-2);
+    }
+    h1, h2, .serif { font-family: Fraunces, Palatino, Georgia, serif; font-weight: 520; }
+    aside h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    .lede, .fine, .empty { margin: 0; color: #d9d2c4; font-size: 14px; }
+    .policy {
+      margin: 8px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      color: #d9d2c4;
+      font-size: 14px;
+    }
+    .policy li { padding-left: 14px; position: relative; }
+    .policy li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brass-2);
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+    }
+    .prompts, #queue, #returns { display: grid; gap: 8px; }
+    .prompts button, .ghost {
+      text-align: left;
+      background: transparent;
+      color: var(--cream);
+      border: 1px solid rgba(244, 239, 228, 0.18);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .prompts button:hover, .ghost:hover { background: rgba(244, 239, 228, 0.06); }
+    .card {
+      background: var(--pine-2);
+      border-radius: 12px;
+      padding: 12px;
+      border-left: 3px solid var(--brass-2);
+    }
+    .card.high { border-left-color: #e07a5f; }
+    .card h3 { margin: 0; font-size: 15px; font-family: Outfit, sans-serif; font-weight: 600; }
+    .card .row { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+    .pill {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brass-2);
+    }
+    .card.high .pill { color: #f0b2a8; }
+    .card p { margin: 8px 0 0; font-size: 13.5px; color: #f4efe4; }
+    .card .quiet { color: #d2cbbd; }
+    details { margin-top: 8px; font-size: 13px; }
+    summary { cursor: pointer; color: var(--brass-2); }
+    .aside-foot { margin-top: auto; display: grid; gap: 4px; }
+    .aside-foot p { margin: 0; font-size: 12px; color: #c9c2b3; }
+    main {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background:
+        linear-gradient(180deg, rgba(255, 253, 248, 0.4), transparent 120px),
+        var(--paper);
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-end;
+      padding: 26px 32px 12px;
+    }
+    .top h1 { margin: 2px 0 0; font-size: 34px; letter-spacing: -0.03em; }
+    #reset {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 14px;
+    }
+    #reset:hover { border-color: var(--brass); }
+    #log {
+      flex: 1;
+      overflow: auto;
+      padding: 8px 32px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .brief {
+      max-width: 62ch;
+      padding: 8px 0 12px;
+    }
+    .brief h2 { margin: 0 0 6px; font-size: 26px; }
+    .brief p { margin: 0; color: var(--muted); }
+    .bubble { max-width: min(68ch, 100%); display: grid; gap: 4px; }
+    .bubble.user { align-self: flex-end; }
+    .who {
+      margin: 0;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .bubble.user .who { text-align: right; }
+    .text {
+      margin: 0;
+      white-space: pre-wrap;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: var(--agent);
+    }
+    .bubble.user .text {
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+    .bubble.error .text { background: #f8e8e4; }
+    .trace { margin: 0; font-size: 12px; color: var(--muted); }
+    form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      padding: 8px 32px 22px;
+      align-items: end;
+    }
+    textarea {
+      resize: none;
+      min-height: 56px;
+      max-height: 160px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fffdf8;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+    textarea:disabled { opacity: 0.7; }
+    form button[type="submit"] {
+      height: 56px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--pine);
+      color: var(--cream);
+      font-weight: 600;
+    }
+    form button[type="submit"]:disabled { opacity: 0.5; cursor: progress; }
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; height: auto; min-height: 100%; }
+      aside { max-height: none; }
+      main { min-height: 70vh; }
+      .top, #log, form { padding-left: 16px; padding-right: 16px; }
+      .top h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 64 40" aria-hidden="true">
+          <path d="M2 36 L18 14 L28 24 L40 8 L62 36" fill="none" stroke="currentColor" stroke-width="2.5"></path>
+        </svg>
+        <div>
+          <p class="eyebrow">Northline Supply</p>
+          <strong class="serif" style="font-size: 22px;">Support desk</strong>
+        </div>
+      </div>
+      <p class="lede">Fictional shop. Mock orders. No client data. The agent answers from the FAQ and the order book, and writes a ticket when a person should decide.</p>
+      <section>
+        <h2>Handled here</h2>
+        <ul class="policy">
+          <li>Shipping, sizing, warranty, gift cards</li>
+          <li>Order status, when the email matches</li>
+          <li>Returns inside 30 days, unworn, not final sale</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Handed to a person</h2>
+        <ul class="policy">
+          <li>Damage, missing items, worn gear</li>
+          <li>Returns past 30 days</li>
+          <li>Cancellations, price matches, anything off-policy</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Try a case</h2>
+        <div class="prompts">
+          <button type="button" data-message="How long does standard shipping take?">Shipping time</button>
+          <button type="button" data-message="Where is order ORD-1042? My email is ava.chen@northline.example">Track ORD-1042</button>
+          <button type="button" data-message="I need to return the beanie from ORD-1108. It doesn't fit. Email jules.okonkwo@northline.example">Return a beanie</button>
+          <button type="button" data-message="I want a refund for ORD-0988. mina.park@northline.example. I changed my mind.">Parka past 30 days</button>
+          <button type="button" data-message="The headlamp in ORD-1215 arrived damaged. sam.rivera@northline.example">Damaged headlamp</button>
+          <button type="button" data-message="I want to return ORD-0771, the camp mug. rio.hale@northline.example">Final-sale mug</button>
+          <button type="button" data-message="Let me talk to a real person.">Ask for a person</button>
+        </div>
+      </section>
+      <section>
+        <h2>Human queue <span id="queue-count" class="pill">0</span></h2>
+        <div id="queue"></div>
+      </section>
+      <section>
+        <h2>Returns <span id="return-count" class="pill">0</span></h2>
+        <div id="returns"></div>
+      </section>
+      <div class="aside-foot">
+        <p id="mode">Offline mock</p>
+        <p id="desk-date">Desk date held for the eval.</p>
+        <p>Built by Ben Samuelson.</p>
+      </div>
+    </aside>
+    <main>
+      <header class="top">
+        <div>
+          <p class="eyebrow">Customer channel</p>
+          <h1>Northline desk</h1>
+        </div>
+        <button id="reset" type="button">New chat</button>
+      </header>
+      <div id="log" aria-live="polite"></div>
+      <form id="composer">
+        <label class="sr" for="message">Message</label>
+        <textarea id="message" rows="2" placeholder="Ask about an order, a return, or a store policy" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </main>
+  </div>
+  <script>
+    const log = document.getElementById("log");
+    const form = document.getElementById("composer");
+    const input = document.getElementById("message");
+    const queue = document.getElementById("queue");
+    const returns = document.getElementById("returns");
+    const queueCount = document.getElementById("queue-count");
+    const returnCount = document.getElementById("return-count");
+    const modeLine = document.getElementById("mode");
+    const deskDate = document.getElementById("desk-date");
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const traceLabel = {
+      search_faq: "Checked the FAQ",
+      lookup_order: "Looked up the order",
+      check_return_eligibility: "Checked return rules",
+      create_return: "Opened a return",
+      escalate_to_human: "Wrote a staff ticket"
+    };
+    let sessionId = null;
+    let busy = false;
+
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text != null) node.textContent = text;
+      return node;
+    }
+
+    function showBrief() {
+      const brief = el("div", "brief");
+      brief.append(
+        el("h2", null, "What do you need?"),
+        el("p", null, "Try a sample order from the left, or ask a policy question. If the desk should not decide, the ticket shows up in the human queue.")
+      );
+      log.appendChild(brief);
+    }
+
+    function addBubble(who, text, tools, isError) {
+      const bubble = el("article", "bubble" + (who === "You" ? " user" : "") + (isError ? " error" : ""));
+      bubble.append(el("p", "who", who), el("p", "text", text));
+      if (tools && tools.length) {
+        const labels = tools.map((name) => traceLabel[name] || name);
+        bubble.append(el("p", "trace", labels.join(" · ")));
+      }
+      log.appendChild(bubble);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function renderQueue(tickets) {
+      queue.replaceChildren();
+      queueCount.textContent = String(tickets.length);
+      if (!tickets.length) {
+        queue.appendChild(el("p", "empty", "No tickets yet. Damage, exceptions, cancellations, and questions without a policy land here."));
+        return;
+      }
+      tickets.forEach((ticket) => {
+        const card = el("article", "card" + (ticket.priority === "high" ? " high" : ""));
+        const row = el("div", "row");
+        row.append(el("h3", null, ticket.id), el("span", "pill", ticket.priority));
+        card.append(row, el("p", null, ticket.reason_label), el("p", null, ticket.summary));
+        const action = el("p", "quiet", "For the teammate: " + ticket.recommended_action);
+        card.appendChild(action);
+        if (ticket.quotes) {
+          const details = document.createElement("details");
+          details.append(el("summary", null, "What they wrote"), el("p", null, ticket.quotes));
+          card.appendChild(details);
+        }
+        queue.appendChild(card);
+      });
+    }
+
+    function renderReturns(rows) {
+      returns.replaceChildren();
+      returnCount.textContent = String(rows.length);
+      if (!rows.length) {
+        returns.appendChild(el("p", "empty", "No returns opened in this chat."));
+        return;
+      }
+      rows.forEach((row) => {
+        const card = el("article", "card");
+        const names = (row.items || []).map((item) => item.name).join(", ");
+        card.append(
+          el("h3", null, row.id),
+          el("p", null, names),
+          el("p", "quiet", row.order_id + " · " + formatMoney(row.item_total) + " · " + row.reason_label)
+        );
+        returns.appendChild(card);
+      });
+    }
+
+    function formatMoney(amount) {
+      return "$" + Number(amount).toFixed(2);
+    }
+
+    function setBusy(next) {
+      busy = next;
+      input.disabled = next;
+      form.querySelector("button[type=submit]").disabled = next;
+    }
+
+    async function send(message) {
+      if (busy || !message.trim()) return;
+      const brief = log.querySelector(".brief");
+      if (brief) brief.remove();
+      addBubble("You", message.trim());
+      input.value = "";
+      setBusy(true);
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message.trim(), session_id: sessionId })
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          addBubble("Desk", data.detail || "The desk could not answer.", null, true);
+          if (response.status === 404) sessionId = null;
+          return;
+        }
+        sessionId = data.session_id;
+        addBubble("Desk", data.reply, data.tools_used || []);
+        renderQueue(data.tickets || []);
+        renderReturns(data.returns || []);
+      } catch (error) {
+        addBubble("Desk", "The desk is unreachable.", null, true);
+      } finally {
+        setBusy(false);
+        input.focus();
+      }
+    }
+
+    function resetChat() {
+      sessionId = null;
+      log.replaceChildren();
+      showBrief();
+      renderQueue([]);
+      renderReturns([]);
+      input.focus();
+    }
+
+    document.querySelectorAll(".prompts button").forEach((button) => {
+      button.addEventListener("click", () => send(button.dataset.message || ""));
+    });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      send(input.value);
+    });
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        form.requestSubmit();
+      }
+    });
+    document.getElementById("reset").addEventListener("click", resetChat);
+
+    fetch("/api/health")
+      .then((response) => response.json())
+      .then((data) => {
+        const [year, month, day] = data.as_of.split("-").map(Number);
+        deskDate.textContent = "Desk date " + months[month - 1] + " " + day + ", " + year + ". Return windows use this date.";
+        modeLine.textContent = data.mode === "live"
+          ? "Live model" + (data.model ? " · " + data.model : "")
+          : "Offline mock";
+      })
+      .catch(() => {
+        modeLine.textContent = "Desk unreachable";
+      });
+
+    showBrief();
+    renderQueue([]);
+    renderReturns([]);
+    input.focus();
+  </script>
+</body>
+</html>

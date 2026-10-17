@@ -1,0 +1,79 @@
+[
+  {
+    "id": "shipping_times",
+    "question": "How long does shipping take?",
+    "answer": "Standard shipping inside the US takes 4-7 business days. Orders placed before 1pm ET on a business day leave the dock the same day. Alaska and Hawaii usually add 2-3 days. Tracking is emailed when the label is created.",
+    "keywords": ["shipping", "delivery", "arrive", "days"],
+    "phrases": ["how long does", "shipping take", "shipping time", "when will it arrive", "business days"]
+  },
+  {
+    "id": "shipping_cost",
+    "question": "How much does shipping cost?",
+    "answer": "Orders of $75 or more ship free inside the contiguous US. Under $75, standard shipping is $6. Expedited shipping is $18 and is not available for stoves or fuel.",
+    "keywords": ["shipping", "cost", "free", "expedited"],
+    "phrases": ["shipping cost", "how much is shipping", "free shipping", "expedited"]
+  },
+  {
+    "id": "international",
+    "question": "Do you ship to Canada or overseas?",
+    "answer": "We ship to the US and Canada. Canada is $14 flat, duties are the buyer's, and delivery is typically 6-10 business days. We don't ship anywhere else.",
+    "keywords": ["canada", "international", "duties", "overseas"],
+    "phrases": ["ship to canada", "canada", "international", "overseas", "do you ship"]
+  },
+  {
+    "id": "return_policy",
+    "question": "What is the return policy?",
+    "answer": "You can return most items within 30 days of delivery. They should be unworn, unwashed, and in original condition. Final-sale items, marked on the product page and the packing slip, can't be returned. Refunds go back to the original payment method after the dock checks the package in. An exchange is a return plus a new order.",
+    "keywords": ["return", "refund", "exchange", "window"],
+    "phrases": ["return policy", "refund policy", "how do returns", "can i return", "do you take returns", "whats your return"]
+  },
+  {
+    "id": "sizing",
+    "question": "How do jackets and shirts fit?",
+    "answer": "Jackets and shirts are cut for a layer underneath, so most people take their usual size. If you are between sizes in a down parka, size down. The Ridgeline runs roomy. Packs are one size unless the product page says otherwise.",
+    "keywords": ["size", "fit", "jacket", "parka"],
+    "phrases": ["sizing", "size chart", "usual size", "run small", "run large", "between sizes", "jackets fit", "how do your jackets"]
+  },
+  {
+    "id": "warranty",
+    "question": "What is the warranty?",
+    "answer": "Packs have a lifetime warranty against defects in stitching and hardware. Headlamps, stoves, and other gear with electronics or fuel systems have a 1-year warranty. Warranty covers defects, not ordinary wear. Email a photo of the issue and your order number and the desk will route it.",
+    "keywords": ["warranty", "defect", "lifetime", "packs"],
+    "phrases": ["warranty", "guarantee", "lifetime warranty"]
+  },
+  {
+    "id": "payment",
+    "question": "What payment methods do you take?",
+    "answer": "We take major credit cards and Northline gift cards. We don't take cash on delivery or checks.",
+    "keywords": ["payment", "credit", "card", "check"],
+    "phrases": ["payment", "credit card", "do you take checks", "cash on delivery"]
+  },
+  {
+    "id": "gift_cards",
+    "question": "Do you sell gift cards?",
+    "answer": "Gift cards are digital, sent by email, and never expire. They can be used online across more than one order. Gift cards themselves are not refundable.",
+    "keywords": ["gift", "card", "expire"],
+    "phrases": ["gift card", "gift cards"]
+  },
+  {
+    "id": "tracking_howto",
+    "question": "How do I track an order?",
+    "answer": "Tracking is in your shipping email. If you don't have it, this desk can look it up from your order number and the email on the order.",
+    "keywords": ["tracking", "track"],
+    "phrases": ["how do i track", "where is tracking", "tracking number"]
+  },
+  {
+    "id": "hours",
+    "question": "When is a person available?",
+    "answer": "People are at the desk Monday through Friday, 9am-6pm ET. This assistant can look up orders and start standard returns outside those hours. Anything it escalates is picked up the next staffed hour.",
+    "keywords": ["hours", "open", "desk"],
+    "phrases": ["support hours", "business hours", "are you open", "what time", "person available"]
+  },
+  {
+    "id": "final_sale",
+    "question": "What does final sale mean?",
+    "answer": "Final-sale items are clearance or special buys. The product page and your packing slip both say final sale. They can't be returned or exchanged.",
+    "keywords": ["final", "clearance", "sale"],
+    "phrases": ["final sale", "final-sale", "clearance"]
+  }
+]

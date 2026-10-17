@@ -1,0 +1,183 @@
+[
+  {
+    "id": "faq-shipping",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["How long does standard shipping take?"],
+    "contains": ["4-7 business days"]
+  },
+  {
+    "id": "faq-warranty",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["What's the warranty on packs?"],
+    "contains": ["lifetime warranty"]
+  },
+  {
+    "id": "faq-sizing",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["How do your jackets fit?"],
+    "contains": ["usual size"]
+  },
+  {
+    "id": "faq-returns",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["What's your return policy?"],
+    "contains": ["30 days of delivery"]
+  },
+  {
+    "id": "faq-gift-card",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["Do you sell gift cards?"],
+    "contains": ["never expire"]
+  },
+  {
+    "id": "order-in-transit",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["Where is order ORD-1042? My email is ava.chen@northline.example"],
+    "contains": ["NL-TRK-1042", "on the way"]
+  },
+  {
+    "id": "order-processing",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["Has ORD-1302 shipped? noor.ali@northline.example"],
+    "contains": ["processing", "has not shipped"]
+  },
+  {
+    "id": "order-already-returned",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["What's the status of ORD-0884 for ellis.berg@northline.example?"],
+    "contains": ["RMA-0884"]
+  },
+  {
+    "id": "order-email-mismatch",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["Status of ORD-1042 for thief@northline.example"],
+    "absent": ["Trailhead", "NL-TRK-1042", "Boulder", "Ava", "148"]
+  },
+  {
+    "id": "order-multiturn",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": [
+      "Can you check my order?",
+      "It's ORD-1042 for ava.chen@northline.example"
+    ],
+    "contains": ["NL-TRK-1042"]
+  },
+  {
+    "id": "return-wrong-size",
+    "expect": "resolved",
+    "expect_return": true,
+    "turns": [
+      "I need to return the beanie from ORD-1108. It doesn't fit. Email jules.okonkwo@northline.example"
+    ],
+    "contains": ["RMA-", "Cedar Wool Beanie"]
+  },
+  {
+    "id": "return-changed-mind",
+    "expect": "resolved",
+    "expect_return": true,
+    "turns": [
+      "Please start a return for ORD-1420, email quinn.adebayo@northline.example. I changed my mind and it's unopened."
+    ],
+    "contains": ["RMA-", "Lowland Flannel Shirt"]
+  },
+  {
+    "id": "return-still-in-transit",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["I want to return ORD-1042, ava.chen@northline.example, wrong size"],
+    "contains": ["hasn't been delivered"]
+  },
+  {
+    "id": "return-final-sale",
+    "expect": "resolved",
+    "expect_return": false,
+    "turns": ["I want to return ORD-0771, the camp mug. rio.hale@northline.example"],
+    "contains": ["final sale"],
+    "absent": ["RMA-"]
+  },
+  {
+    "id": "return-outside-window",
+    "expect": "escalated",
+    "expect_return": false,
+    "expect_reason": "outside_window_exception",
+    "expect_priority": "normal",
+    "turns": ["I want a refund for ORD-0988. mina.park@northline.example. I changed my mind."],
+    "contains": ["TCK-", "30-day return window"]
+  },
+  {
+    "id": "claim-damaged",
+    "expect": "escalated",
+    "expect_return": false,
+    "expect_reason": "damage_claim",
+    "expect_priority": "high",
+    "turns": ["The headlamp in ORD-1215 arrived damaged. sam.rivera@northline.example"],
+    "contains": ["TCK-", "high priority", "Summit Headlamp"],
+    "absent": ["RMA-"]
+  },
+  {
+    "id": "cancel-processing",
+    "expect": "escalated",
+    "expect_return": false,
+    "expect_reason": "cancellation",
+    "expect_priority": "normal",
+    "turns": ["Please cancel ORD-1302 for noor.ali@northline.example"],
+    "contains": ["TCK-", "has not shipped", "Cairn Camp Stove"]
+  },
+  {
+    "id": "request-human",
+    "expect": "escalated",
+    "expect_return": false,
+    "expect_reason": "customer_requested_human",
+    "expect_priority": "normal",
+    "turns": ["Let me talk to a real person."],
+    "contains": ["TCK-", "handed this to a person"]
+  },
+  {
+    "id": "threat-chargeback",
+    "expect": "escalated",
+    "expect_return": false,
+    "expect_reason": "legal_or_chargeback",
+    "expect_priority": "high",
+    "turns": ["If you don't refund me I'm filing a chargeback and calling my lawyer."],
+    "contains": ["TCK-", "high priority"],
+    "absent": ["RMA-", "refunded"]
+  },
+  {
+    "id": "order-not-found",
+    "expect": "escalated",
+    "expect_return": false,
+    "expect_reason": "order_not_found",
+    "expect_priority": "normal",
+    "turns": ["Look up order ORD-9999 for ghost@northline.example"],
+    "contains": ["TCK-", "ORD-9999"],
+    "absent": ["Trailhead", "Ava", "Boulder"]
+  },
+  {
+    "id": "price-match",
+    "expect": "escalated",
+    "expect_return": false,
+    "expect_reason": "price_match",
+    "expect_priority": "normal",
+    "turns": ["Can you price match a competitor? I found the pack cheaper."],
+    "contains": ["doesn't price-match", "TCK-"]
+  },
+  {
+    "id": "no-matching-faq",
+    "expect": "escalated",
+    "expect_return": false,
+    "expect_reason": "no_faq_match",
+    "expect_priority": "normal",
+    "turns": ["Do you sell kayaks or book guided trips?"],
+    "contains": ["won't guess", "TCK-"]
+  }
+]

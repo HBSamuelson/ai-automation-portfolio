@@ -12,9 +12,9 @@ I have built AI support automation for a call center, so I plan for messy input,
 | Website chatbot | [website-chatbot](website-chatbot/) | Ready |
 | Lead list scraper | [lead-list-scraper](lead-list-scraper/) | Ready |
 | Voice receptionist | [voice-receptionist](voice-receptionist/) | Ready |
-| Northline support agent | northline-support-agent | Coming soon |
+| Northline support agent | [northline-support-agent](northline-support-agent/) | Ready |
 
-Python 3.12 and Node 22 are enough for the four ready demos. Run the test suites as separate commands. They share a few module names, so one combined pytest process will import the wrong file. `bash scripts/test-all.sh` already splits them.
+Python 3.12 and Node 22 are enough for the five ready demos. Run the test suites as separate commands. They share a few module names, so one combined pytest process will import the wrong file. `bash scripts/test-all.sh` already splits them.
 
 ## n8n lead intake
 
@@ -82,4 +82,16 @@ Open `voice-receptionist/samples/call-report.html`.
 
 ## Northline support agent
 
-Coming soon. A support agent for Northline Studio that picks up where the lead intake workflow leaves off.
+A support agent for Northline Supply, a fictional outdoor shop. It answers from a fixed FAQ, looks up an order when the email matches, opens a return inside 30 days, and writes a ticket when a person should decide. No API key is required. The folder README has the measured eval: 14 resolved of 22, and 22 of 22 labeled correctly.
+
+```bash
+cd northline-support-agent
+python3 -m pip install -r requirements.txt
+python3 -m pytest -q
+python3 -m support_agent.eval
+python3 -m support_agent.webapp --mock
+```
+
+The desk listens on [http://127.0.0.1:8741](http://127.0.0.1:8741).
+
+![Northline desk after a shipping answer, an in-transit order lookup, and a return the agent handed to a person](screenshots/northline-support-agent.png)
